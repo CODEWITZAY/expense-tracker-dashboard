@@ -43,6 +43,15 @@
         .month-nav select { padding: 4px 8px; border: none; border-radius: 5px; background: rgba(255,255,255,0.12); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; }
         .month-nav select option { background: #1a1f36; }
 
+        /* DATA TOOLBAR */
+        .data-bar { display: flex; align-items: center; gap: 8px; margin-bottom: var(--gap); background: var(--bg-card); border-radius: var(--radius); padding: 10px 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); flex-wrap: wrap; }
+        .data-bar-label { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.6px; margin-right: 4px; }
+        .data-btn { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid #e5e7eb; background: #f9fafb; color: var(--text-primary); transition: all 0.15s; display: inline-flex; align-items: center; gap: 5px; }
+        .data-btn:hover { background: #f3f4f6; border-color: #d1d5db; }
+        .data-btn.gh { background: #1a1f36; color: #fff; border-color: #1a1f36; }
+        .data-btn.gh:hover { background: #2d3561; border-color: #2d3561; }
+        .data-bar-sep { width: 1px; height: 20px; background: #e5e7eb; margin: 0 4px; }
+
         /* KPIs */
         .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }
         .kpi-card { background: var(--bg-card); border-radius: var(--radius); padding: 20px 22px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); border-top: 4px solid transparent; }
@@ -60,35 +69,14 @@
         .cal-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
         .cal-dow { text-align: center; font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; padding-bottom: 6px; letter-spacing: 0.5px; }
-        .cal-day {
-            min-height: 80px;
-            border: 1.5px solid #f0f0f0;
-            border-radius: 8px;
-            padding: 6px 7px;
-            position: relative;
-            transition: border-color 0.15s;
-            cursor: default;
-        }
+        .cal-day { min-height: 80px; border: 1.5px solid #f0f0f0; border-radius: 8px; padding: 6px 7px; position: relative; transition: border-color 0.15s; cursor: default; }
         .cal-day.has-bills { border-color: #c7d2fe; background: #fafbff; }
         .cal-day.today { border-color: #6366f1 !important; background: #eef2ff; }
         .cal-day.empty { background: transparent; border-color: transparent; }
         .cal-day-num { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; }
         .cal-day.today .cal-day-num { color: #6366f1; }
         .cal-day.today .cal-day-num::after { content: ' ●'; font-size: 7px; vertical-align: super; color: #6366f1; }
-        .cal-bill-chip {
-            font-size: 10px;
-            font-weight: 600;
-            padding: 2px 5px;
-            border-radius: 4px;
-            margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            cursor: pointer;
-            display: block;
-            max-width: 100%;
-            transition: opacity 0.15s;
-        }
+        .cal-bill-chip { font-size: 10px; font-weight: 600; padding: 2px 5px; border-radius: 4px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; display: block; max-width: 100%; transition: opacity 0.15s; }
         .cal-bill-chip:hover { opacity: 0.75; }
         .chip-paid     { background: #d1fae5; color: #065f46; }
         .chip-unpaid   { background: #fee2e2; color: #991b1b; }
@@ -151,7 +139,7 @@
         .btn-delete { background: #fee2e2; color: #991b1b; }
         .btn-delete:hover { background: #fecaca; }
 
-        /* DAY DETAIL PANEL (slide-in) */
+        /* DAY DETAIL PANEL */
         .day-panel-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 90; }
         .day-panel-overlay.open { display: block; }
         .day-panel { position: fixed; right: 0; top: 0; bottom: 0; width: 340px; max-width: 95vw; background: #fff; box-shadow: -4px 0 30px rgba(0,0,0,0.12); z-index: 91; padding: 28px 22px; overflow-y: auto; transform: translateX(100%); transition: transform 0.25s ease; }
@@ -169,7 +157,7 @@
         .day-panel-add:hover { background: #4f46e5; }
         .day-panel-empty { text-align: center; color: #9ca3af; padding: 30px 10px; font-size: 13px; }
 
-        /* MODAL */
+        /* MODALS */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: center; justify-content: center; }
         .modal-overlay.open { display: flex; }
         .modal { background: #fff; border-radius: 14px; padding: 28px; width: 460px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
@@ -180,10 +168,20 @@
         .form-group label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
         .form-group input, .form-group select { padding: 9px 12px; border: 1px solid #e5e7eb; border-radius: 7px; font-size: 14px; outline: none; }
         .form-group input:focus, .form-group select:focus { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,0.15); }
-        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; flex-wrap: wrap; }
         .btn-cancel { padding: 9px 18px; background: #f3f4f6; color: #374151; border: none; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; }
         .btn-save   { padding: 9px 18px; background: #6366f1; color: #fff; border: none; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; }
         .btn-save:hover { background: #4f46e5; }
+        .btn-dark { padding: 9px 18px; background: #1a1f36; color: #fff; border: none; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .btn-dark:hover { background: #2d3561; }
+
+        /* GITHUB MODAL SPECIFIC */
+        .gh-warning { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #92400e; margin-bottom: 18px; line-height: 1.5; }
+        .gh-status { margin-top: 14px; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; display: none; }
+        .gh-status.success { background: #d1fae5; color: #065f46; display: block; }
+        .gh-status.error   { background: #fee2e2; color: #991b1b; display: block; }
+        .gh-status.loading { background: #eef2ff; color: #4338ca; display: block; }
+        .gh-divider { border: none; border-top: 1px solid #f0f0f0; margin: 18px 0; }
 
         .footer { text-align: center; font-size: 12px; color: var(--text-secondary); padding: 10px; }
 
@@ -207,22 +205,15 @@
     <header class="header">
         <h1>📋 <span id="headerTitle">Expense Tracker</span></h1>
         <div class="header-right">
-            <!-- Month / Year navigation -->
             <div class="month-nav">
                 <button class="month-nav-btn" onclick="changeMonth(-1)">&#8249;</button>
                 <select id="monthSelect" onchange="onMonthChange()">
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
+                    <option value="1">January</option><option value="2">February</option>
+                    <option value="3">March</option><option value="4">April</option>
+                    <option value="5">May</option><option value="6">June</option>
+                    <option value="7">July</option><option value="8">August</option>
+                    <option value="9">September</option><option value="10">October</option>
+                    <option value="11">November</option><option value="12">December</option>
                 </select>
                 <select id="yearSelect" onchange="onMonthChange()"></select>
                 <button class="month-nav-btn" onclick="changeMonth(1)">&#8250;</button>
@@ -253,6 +244,18 @@
             <button class="add-btn" onclick="openModal()">+ Add Bill</button>
         </div>
     </header>
+
+    <!-- DATA TOOLBAR -->
+    <div class="data-bar">
+        <span class="data-bar-label">Data</span>
+        <button class="data-btn" onclick="exportData()">📥 Export JSON</button>
+        <label class="data-btn" style="cursor:pointer">
+            📤 Import JSON
+            <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+        </label>
+        <div class="data-bar-sep"></div>
+        <button class="data-btn gh" onclick="openGithubModal()">☁️ GitHub Sync</button>
+    </div>
 
     <!-- KPIs -->
     <section class="kpi-row">
@@ -325,7 +328,7 @@
         </div>
     </div>
 
-    <div class="footer" id="footer">Expense Tracker · Click a calendar day to manage bills for that date · + Add Bill anytime</div>
+    <div class="footer" id="footer">Expense Tracker · Click a calendar day to manage bills · + Add Bill anytime</div>
 </div>
 
 <!-- DAY SIDE PANEL -->
@@ -337,7 +340,7 @@
     </div>
     <div class="day-panel-total" id="dayPanelTotal"></div>
     <div id="dayPanelBills"></div>
-    <button class="day-panel-add" id="dayPanelAddBtn" onclick="addBillForDay()">+ Add Bill for This Day</button>
+    <button class="day-panel-add" onclick="addBillForDay()">+ Add Bill for This Day</button>
 </div>
 
 <!-- ADD/EDIT MODAL -->
@@ -360,22 +363,14 @@
             <div class="form-group">
                 <label>Category</label>
                 <select id="fCat">
-                    <option>Housing</option>
-                    <option>Utilities</option>
-                    <option>Insurance</option>
-                    <option>Subscriptions</option>
-                    <option>Transportation</option>
-                    <option>Health</option>
-                    <option>Other</option>
+                    <option>Housing</option><option>Utilities</option><option>Insurance</option>
+                    <option>Subscriptions</option><option>Transportation</option><option>Health</option><option>Other</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Status</label>
                 <select id="fStatus">
-                    <option>Unpaid</option>
-                    <option>Paid</option>
-                    <option>Upcoming</option>
-                    <option>AutoPay</option>
+                    <option>Unpaid</option><option>Paid</option><option>Upcoming</option><option>AutoPay</option>
                 </select>
             </div>
         </div>
@@ -386,11 +381,42 @@
     </div>
 </div>
 
+<!-- GITHUB SYNC MODAL -->
+<div class="modal-overlay" id="githubOverlay">
+    <div class="modal" style="width:500px">
+        <h2>☁️ GitHub Sync</h2>
+        <div class="gh-warning">
+            ⚠️ Your Personal Access Token is stored in this browser's localStorage. Only use this on a device you trust and keep your token private. Never share it.
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+            <label>Personal Access Token (needs <code>repo</code> scope)</label>
+            <input type="password" id="ghToken" placeholder="ghp_...">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Repository (owner/name)</label>
+                <input type="text" id="ghRepo" placeholder="CODEWITZAY/expense-tracker-dashboard">
+            </div>
+            <div class="form-group">
+                <label>File path in repo</label>
+                <input type="text" id="ghPath" placeholder="expense_data.json">
+            </div>
+        </div>
+        <div id="ghStatus" class="gh-status"></div>
+        <hr class="gh-divider">
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeGithubModal()">Close</button>
+            <button class="btn-save" onclick="pullFromGithub()">⬇️ Load from GitHub</button>
+            <button class="btn-dark" onclick="pushToGithub()">⬆️ Save to GitHub</button>
+        </div>
+    </div>
+</div>
+
 <script>
 // ── CURRENT MONTH / YEAR ──────────────────────────────
 const _now = new Date();
 let currentYear  = _now.getFullYear();
-let currentMonth = _now.getMonth() + 1; // 1-based
+let currentMonth = _now.getMonth() + 1;
 
 // ── DATA ──────────────────────────────────────────────
 let bills = [];
@@ -403,53 +429,45 @@ let activeDayDate = null;
 
 // ── CATEGORY CONFIG ───────────────────────────────────
 const catColors = {
-    Housing: '#6366f1', Utilities: '#06b6d4', Insurance: '#f59e0b',
-    Subscriptions: '#8b5cf6', Transportation: '#10b981', Health: '#ef4444', Other: '#94a3b8'
+    Housing:'#6366f1', Utilities:'#06b6d4', Insurance:'#f59e0b',
+    Subscriptions:'#8b5cf6', Transportation:'#10b981', Health:'#ef4444', Other:'#94a3b8'
 };
 const catEmoji = {
-    Housing: '🏠', Utilities: '💡', Insurance: '🛡️',
-    Subscriptions: '📱', Transportation: '🚗', Health: '❤️', Other: '📦'
+    Housing:'🏠', Utilities:'💡', Insurance:'🛡️',
+    Subscriptions:'📱', Transportation:'🚗', Health:'❤️', Other:'📦'
 };
-const chipClass  = { Paid: 'chip-paid', Unpaid: 'chip-unpaid', Upcoming: 'chip-upcoming', AutoPay: 'chip-autopay' };
-const statusIcon = { Paid: '✅', Unpaid: '❌', Upcoming: '⏰', AutoPay: '🔄' };
+const chipClass  = { Paid:'chip-paid', Unpaid:'chip-unpaid', Upcoming:'chip-upcoming', AutoPay:'chip-autopay' };
+const statusIcon = { Paid:'✅', Unpaid:'❌', Upcoming:'⏰', AutoPay:'🔄' };
 
 // ── HELPERS ───────────────────────────────────────────
-function fmt(n) {
-    return '$' + (n||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-function pad(n) { return String(n).padStart(2, '0'); }
+function fmt(n) { return '$'+(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function pad(n) { return String(n).padStart(2,'0'); }
 function dateKey(day) { return `${currentYear}-${pad(currentMonth)}-${pad(day)}`; }
-function monthLabel() {
-    return new Date(currentYear, currentMonth - 1, 1).toLocaleString('en-US', { month: 'long' });
-}
+function monthLabel() { return new Date(currentYear,currentMonth-1,1).toLocaleString('en-US',{month:'long'}); }
 function storagePrefix() { return `expenses_${currentYear}_${pad(currentMonth)}`; }
 
 // ── MONTH NAV ─────────────────────────────────────────
 function populateYearSelect() {
     const sel = document.getElementById('yearSelect');
     sel.innerHTML = '';
-    for (let y = _now.getFullYear() - 3; y <= _now.getFullYear() + 5; y++) {
-        const opt = document.createElement('option');
-        opt.value = y; opt.textContent = y;
-        sel.appendChild(opt);
+    for (let y = _now.getFullYear()-3; y <= _now.getFullYear()+5; y++) {
+        const o = document.createElement('option');
+        o.value = y; o.textContent = y; sel.appendChild(o);
     }
 }
-
 function syncSelectors() {
     document.getElementById('monthSelect').value = currentMonth;
     document.getElementById('yearSelect').value  = currentYear;
 }
-
 function updatePageLabels() {
     const label = `${monthLabel()} ${currentYear}`;
     document.getElementById('headerTitle').textContent = label;
     document.getElementById('calTitle').innerHTML =
         `📅 ${label} — Bills Calendar <span style="font-size:12px;color:#9ca3af;font-weight:400">(click any day to view & manage bills)</span>`;
-    document.getElementById('tableTitle').textContent  = `📄 All Bills — ${label}`;
-    document.getElementById('footer').textContent = `${label} · Click a calendar day to manage bills for that date · + Add Bill anytime`;
+    document.getElementById('tableTitle').textContent = `📄 All Bills — ${label}`;
+    document.getElementById('footer').textContent = `${label} · Click a calendar day to manage bills · + Add Bill anytime`;
     document.title = `Expense Tracker — ${label}`;
 }
-
 function changeMonth(delta) {
     saveToStorage();
     currentMonth += delta;
@@ -458,14 +476,12 @@ function changeMonth(delta) {
     syncSelectors();
     loadMonth();
 }
-
 function onMonthChange() {
     saveToStorage();
     currentMonth = parseInt(document.getElementById('monthSelect').value);
     currentYear  = parseInt(document.getElementById('yearSelect').value);
     loadMonth();
 }
-
 function loadMonth() {
     bills = []; nextId = 1;
     document.getElementById('kpiIncome1').textContent = '$0.00';
@@ -476,17 +492,151 @@ function loadMonth() {
     applyFilters();
 }
 
+// ── EXPORT / IMPORT ───────────────────────────────────
+function gatherAllData() {
+    const data = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('expenses_')) data[key] = localStorage.getItem(key);
+    }
+    return data;
+}
+function restoreAllData(data) {
+    Object.entries(data).forEach(([key, val]) => {
+        if (key.startsWith('expenses_')) localStorage.setItem(key, val);
+    });
+}
+
+function exportData() {
+    saveToStorage();
+    const data = gatherAllData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = `expense_data_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            restoreAllData(data);
+            loadMonth();
+            alert('✅ Data imported successfully!');
+        } catch(err) {
+            alert('❌ Invalid JSON file.');
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+// ── GITHUB SYNC ───────────────────────────────────────
+function openGithubModal() {
+    loadGithubSettings();
+    setGhStatus('', '');
+    document.getElementById('githubOverlay').classList.add('open');
+}
+function closeGithubModal() {
+    document.getElementById('githubOverlay').classList.remove('open');
+}
+function setGhStatus(msg, type) {
+    const el = document.getElementById('ghStatus');
+    el.textContent = msg;
+    el.className = 'gh-status' + (type ? ' ' + type : '');
+}
+function saveGithubSettings() {
+    localStorage.setItem('gh_token', document.getElementById('ghToken').value.trim());
+    localStorage.setItem('gh_repo',  document.getElementById('ghRepo').value.trim());
+    localStorage.setItem('gh_path',  document.getElementById('ghPath').value.trim());
+}
+function loadGithubSettings() {
+    document.getElementById('ghToken').value = localStorage.getItem('gh_token') || '';
+    document.getElementById('ghRepo').value  = localStorage.getItem('gh_repo')  || 'CODEWITZAY/expense-tracker-dashboard';
+    document.getElementById('ghPath').value  = localStorage.getItem('gh_path')  || 'expense_data.json';
+}
+
+async function pushToGithub() {
+    const token = document.getElementById('ghToken').value.trim();
+    const repo  = document.getElementById('ghRepo').value.trim();
+    const path  = document.getElementById('ghPath').value.trim();
+    if (!token || !repo || !path) { setGhStatus('Please fill in all fields.', 'error'); return; }
+
+    setGhStatus('Saving to GitHub...', 'loading');
+    saveToStorage();
+
+    const data    = gatherAllData();
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    const headers = { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
+
+    let sha = null;
+    try {
+        const check = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { headers });
+        if (check.ok) { const j = await check.json(); sha = j.sha; }
+    } catch(e) {}
+
+    try {
+        const body = { message: `Update expense data — ${new Date().toISOString().split('T')[0]}`, content, ...(sha ? { sha } : {}) };
+        const res  = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, { method: 'PUT', headers, body: JSON.stringify(body) });
+        if (res.ok) {
+            setGhStatus('✅ Saved to GitHub successfully!', 'success');
+            saveGithubSettings();
+        } else {
+            const err = await res.json();
+            setGhStatus('❌ ' + (err.message || `HTTP ${res.status}`), 'error');
+        }
+    } catch(e) {
+        setGhStatus('❌ Network error: ' + e.message, 'error');
+    }
+}
+
+async function pullFromGithub() {
+    const token = document.getElementById('ghToken').value.trim();
+    const repo  = document.getElementById('ghRepo').value.trim();
+    const path  = document.getElementById('ghPath').value.trim();
+    if (!token || !repo || !path) { setGhStatus('Please fill in all fields.', 'error'); return; }
+
+    setGhStatus('Loading from GitHub...', 'loading');
+
+    try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+            headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+        });
+        if (!res.ok) {
+            const err = await res.json();
+            setGhStatus('❌ ' + (err.message || `HTTP ${res.status}`), 'error');
+            return;
+        }
+        const json    = await res.json();
+        const decoded = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
+        const data    = JSON.parse(decoded);
+        restoreAllData(data);
+        loadMonth();
+        setGhStatus('✅ Loaded from GitHub successfully!', 'success');
+        saveGithubSettings();
+    } catch(e) {
+        setGhStatus('❌ ' + e.message, 'error');
+    }
+}
+
+document.getElementById('githubOverlay').addEventListener('click', function(e) { if (e.target === this) closeGithubModal(); });
+
 // ── CHARTS ────────────────────────────────────────────
 let barChart, donutChart;
-
 function initCharts() {
     barChart = new Chart(document.getElementById('barChart').getContext('2d'), {
         type: 'bar',
         data: { labels: [], datasets: [] },
         options: {
             responsive: true, maintainAspectRatio: true,
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.parsed.y) } } },
-            scales: { y: { ticks: { callback: v => '$' + v }, grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } }
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' '+fmt(ctx.parsed.y) } } },
+            scales: { y: { ticks: { callback: v => '$'+v }, grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } }
         }
     });
     donutChart = new Chart(document.getElementById('donutChart').getContext('2d'), {
@@ -496,19 +646,17 @@ function initCharts() {
             responsive: true, maintainAspectRatio: true, cutout: '65%',
             plugins: {
                 legend: { position: 'right', labels: { font: { size: 11 }, padding: 10 } },
-                tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.parsed) } }
+                tooltip: { callbacks: { label: ctx => ' '+fmt(ctx.parsed) } }
             }
         }
     });
 }
-
 function updateCharts() {
     const cats = Object.keys(catColors);
-    const totals = {};
-    cats.forEach(c => totals[c] = 0);
+    const totals = {}; cats.forEach(c => totals[c] = 0);
     filteredBills.forEach(b => { if (totals[b.category] !== undefined) totals[b.category] += b.amount; });
     const active = cats.filter(c => totals[c] > 0);
-    barChart.data.labels = active.map(c => catEmoji[c] + ' ' + c);
+    barChart.data.labels = active.map(c => catEmoji[c]+' '+c);
     barChart.data.datasets = [{ data: active.map(c => totals[c]), backgroundColor: active.map(c => catColors[c]), borderRadius: 6, borderSkipped: false }];
     barChart.update('none');
     donutChart.data.labels = active;
@@ -518,43 +666,33 @@ function updateCharts() {
 }
 
 // ── KPIs ──────────────────────────────────────────────
-function parseIncome(id) {
-    const raw = document.getElementById(id).textContent.replace(/[^0-9.]/g, '');
-    return parseFloat(raw) || 0;
-}
-
+function parseIncome(id) { return parseFloat(document.getElementById(id).textContent.replace(/[^0-9.]/g,'')) || 0; }
 function updateLeftover() {
-    const income1  = parseIncome('kpiIncome1');
-    const income2  = parseIncome('kpiIncome2');
-    const combined = income1 + income2;
-    const total    = bills.reduce((s, b) => s + b.amount, 0);
+    const combined = parseIncome('kpiIncome1') + parseIncome('kpiIncome2');
+    const total    = bills.reduce((s,b) => s+b.amount, 0);
     document.getElementById('kpiCombined').textContent = fmt(combined);
+    const el       = document.getElementById('kpiLeftover');
     const leftover = combined - total;
-    const el = document.getElementById('kpiLeftover');
     if (combined > 0) {
-        el.textContent = 'After bills: ' + fmt(leftover);
+        el.textContent = 'After bills: '+fmt(leftover);
         el.style.color = leftover >= 0 ? '#10b981' : '#ef4444';
-    } else {
-        el.textContent = 'Enter incomes above';
-        el.style.color = '';
-    }
+    } else { el.textContent = 'Enter incomes above'; el.style.color = ''; }
 }
-
 function updateKPIs() {
-    const total = filteredBills.reduce((s, b) => s + b.amount, 0);
-    document.getElementById('kpiTotal').textContent     = fmt(total);
-    document.getElementById('kpiTotalCount').textContent = filteredBills.length + ' bill' + (filteredBills.length !== 1 ? 's' : '');
+    const total = filteredBills.reduce((s,b) => s+b.amount, 0);
+    document.getElementById('kpiTotal').textContent      = fmt(total);
+    document.getElementById('kpiTotalCount').textContent = filteredBills.length+' bill'+(filteredBills.length!==1?'s':'');
     updateLeftover();
 }
 
 // ── CALENDAR ──────────────────────────────────────────
 function renderCalendar() {
-    const grid = document.getElementById('calGrid');
-    const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    const startDow   = new Date(currentYear, currentMonth - 1, 1).getDay();
+    const grid       = document.getElementById('calGrid');
+    const dows       = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const startDow   = new Date(currentYear, currentMonth-1, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
     const realToday  = new Date();
-    const isThisMonth = realToday.getFullYear() === currentYear && realToday.getMonth() + 1 === currentMonth;
+    const isThisMonth = realToday.getFullYear()===currentYear && realToday.getMonth()+1===currentMonth;
     const todayDay   = isThisMonth ? realToday.getDate() : -1;
 
     const dayMap = {};
@@ -569,21 +707,15 @@ function renderCalendar() {
 
     for (let day = 1; day <= daysInMonth; day++) {
         const dayBills = dayMap[day] || [];
-        const hasB    = dayBills.length > 0;
-        const isToday = day === todayDay;
-        const classes = ['cal-day', hasB ? 'has-bills' : '', isToday ? 'today' : ''].filter(Boolean).join(' ');
-        const maxShow = 2;
-        const chips = dayBills.slice(0, maxShow).map(b =>
+        const classes  = ['cal-day', dayBills.length?'has-bills':'', day===todayDay?'today':''].filter(Boolean).join(' ');
+        const maxShow  = 2;
+        const chips    = dayBills.slice(0,maxShow).map(b =>
             `<span class="cal-bill-chip ${chipClass[b.status]||'chip-upcoming'}" title="${b.name} — ${fmt(b.amount)}" onclick="event.stopPropagation();openDayPanel(${day})">${b.name}</span>`
         ).join('');
-        const more     = dayBills.length > maxShow ? `<div class="cal-more" onclick="event.stopPropagation();openDayPanel(${day})">+${dayBills.length - maxShow} more</div>` : '';
-        const dayTotal = dayBills.length > 0 ? `<div class="cal-day-total">${fmt(dayBills.reduce((s,b)=>s+b.amount,0))}</div>` : '';
-        html += `<div class="${classes}" onclick="openDayPanel(${day})">
-            <div class="cal-day-num">${day}</div>
-            ${chips}${more}${dayTotal}
-        </div>`;
+        const more     = dayBills.length>maxShow ? `<div class="cal-more" onclick="event.stopPropagation();openDayPanel(${day})">+${dayBills.length-maxShow} more</div>` : '';
+        const dayTotal = dayBills.length ? `<div class="cal-day-total">${fmt(dayBills.reduce((s,b)=>s+b.amount,0))}</div>` : '';
+        html += `<div class="${classes}" onclick="openDayPanel(${day})"><div class="cal-day-num">${day}</div>${chips}${more}${dayTotal}</div>`;
     }
-
     grid.innerHTML = html;
 }
 
@@ -592,51 +724,45 @@ function openDayPanel(day) {
     activeDayDate = dateKey(day);
     const dayBills = bills.filter(b => b.dueDate === activeDayDate);
     const total    = dayBills.reduce((s,b)=>s+b.amount,0);
-
-    const d     = new Date(activeDayDate + 'T00:00:00');
-    const label = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    const label    = new Date(activeDayDate+'T00:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
     document.getElementById('dayPanelTitle').textContent = label;
     document.getElementById('dayPanelTotal').textContent = dayBills.length
         ? `${dayBills.length} bill${dayBills.length>1?'s':''} · Total due: ${fmt(total)}`
         : 'No bills on this day';
-
     const container = document.getElementById('dayPanelBills');
     if (!dayBills.length) {
         container.innerHTML = `<div class="day-panel-empty">📭 No bills scheduled.<br>Tap below to add one.</div>`;
     } else {
+        const badgeCls = {Paid:'badge-paid',Unpaid:'badge-unpaid',Upcoming:'badge-upcoming',AutoPay:'badge-autopay'};
         container.innerHTML = dayBills.map(b => `
             <div class="day-bill-item">
                 <div class="day-bill-name">${catEmoji[b.category]} ${b.name}</div>
                 <div class="day-bill-meta">
                     <span class="day-bill-amount">${fmt(b.amount)}</span>
-                    <span class="badge ${({'Paid':'badge-paid','Unpaid':'badge-unpaid','Upcoming':'badge-upcoming','AutoPay':'badge-autopay'})[b.status]||'badge-upcoming'}">${statusIcon[b.status]} ${b.status}</span>
+                    <span class="badge ${badgeCls[b.status]||'badge-upcoming'}">${statusIcon[b.status]} ${b.status}</span>
                 </div>
                 <div class="day-bill-actions">
-                    ${b.status !== 'Paid' ? `<button class="action-btn btn-pay" onclick="markPaid(${b.id})">✅ Mark Paid</button>` : ''}
+                    ${b.status!=='Paid'?`<button class="action-btn btn-pay" onclick="markPaid(${b.id})">✅ Mark Paid</button>`:''}
                     <button class="action-btn btn-edit" onclick="openModal(${b.id})">✏️ Edit</button>
                     <button class="action-btn btn-delete" onclick="deleteBill(${b.id})">🗑️ Delete</button>
                 </div>
             </div>`).join('');
     }
-
     document.getElementById('dayPanelOverlay').classList.add('open');
     document.getElementById('dayPanel').classList.add('open');
 }
-
 function closeDayPanel() {
     document.getElementById('dayPanelOverlay').classList.remove('open');
     document.getElementById('dayPanel').classList.remove('open');
     activeDayDate = null;
 }
-
 function addBillForDay() { openModal(null, activeDayDate); }
 
 // ── TABLE ─────────────────────────────────────────────
 function badgeHtml(status) {
-    const cls = { Paid: 'badge-paid', Unpaid: 'badge-unpaid', Upcoming: 'badge-upcoming', AutoPay: 'badge-autopay' };
+    const cls = {Paid:'badge-paid',Unpaid:'badge-unpaid',Upcoming:'badge-upcoming',AutoPay:'badge-autopay'};
     return `<span class="badge ${cls[status]||'badge-upcoming'}">${statusIcon[status]||''} ${status}</span>`;
 }
-
 function renderTable() {
     const tbody = document.getElementById('tableBody');
     if (!filteredBills.length) {
@@ -645,9 +771,9 @@ function renderTable() {
     }
     const today = new Date(); today.setHours(0,0,0,0);
     tbody.innerHTML = filteredBills.map(b => {
-        const due  = new Date(b.dueDate + 'T00:00:00');
-        const dStr = due.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-        const overdue = due < today && b.status === 'Unpaid';
+        const due     = new Date(b.dueDate+'T00:00:00');
+        const dStr    = due.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+        const overdue = due < today && b.status==='Unpaid';
         return `<tr>
             <td><strong>${b.name}</strong></td>
             <td><span class="cat-dot" style="background:${catColors[b.category]}"></span>${catEmoji[b.category]} ${b.category}</td>
@@ -655,11 +781,10 @@ function renderTable() {
             <td style="${overdue?'color:#ef4444;font-weight:600':''}">${dStr}${overdue?' ⚠️':''}</td>
             <td>${badgeHtml(b.status)}</td>
             <td style="display:flex;gap:5px;flex-wrap:wrap">
-                ${b.status !== 'Paid' ? `<button class="action-btn btn-pay" onclick="markPaid(${b.id})">✅ Pay</button>` : ''}
+                ${b.status!=='Paid'?`<button class="action-btn btn-pay" onclick="markPaid(${b.id})">✅ Pay</button>`:''}
                 <button class="action-btn btn-edit" onclick="openModal(${b.id})">✏️ Edit</button>
                 <button class="action-btn btn-delete" onclick="deleteBill(${b.id})">🗑️</button>
-            </td>
-        </tr>`;
+            </td></tr>`;
     }).join('');
 }
 
@@ -669,124 +794,85 @@ function applyFilters() {
     const status = document.getElementById('filterStatus').value;
     const search = document.getElementById('searchInput').value.toLowerCase();
     filteredBills = bills.filter(b =>
-        (cat    === 'all' || b.category === cat) &&
-        (status === 'all' || b.status   === status) &&
-        (!search || b.name.toLowerCase().includes(search) || b.category.toLowerCase().includes(search))
+        (cat==='all'||b.category===cat) &&
+        (status==='all'||b.status===status) &&
+        (!search||b.name.toLowerCase().includes(search)||b.category.toLowerCase().includes(search))
     );
-    sortBills();
-    refresh();
+    sortBills(); refresh();
 }
-
-function sortTable(key) {
-    sortDir = sortKey === key ? sortDir * -1 : 1;
-    sortKey = key;
-    sortBills();
-    renderTable();
-}
-
+function sortTable(key) { sortDir = sortKey===key ? sortDir*-1 : 1; sortKey = key; sortBills(); renderTable(); }
 function sortBills() {
-    filteredBills.sort((a, b) => {
-        let va = a[sortKey], vb = b[sortKey];
-        if (sortKey === 'amount')  return (va - vb) * sortDir;
-        if (sortKey === 'dueDate') return (new Date(va) - new Date(vb)) * sortDir;
-        return va.localeCompare(vb) * sortDir;
+    filteredBills.sort((a,b) => {
+        let va=a[sortKey], vb=b[sortKey];
+        if (sortKey==='amount') return (va-vb)*sortDir;
+        if (sortKey==='dueDate') return (new Date(va)-new Date(vb))*sortDir;
+        return va.localeCompare(vb)*sortDir;
     });
 }
-
 function refresh() {
-    updateKPIs();
-    updateCharts();
-    renderCalendar();
-    renderTable();
-    if (document.getElementById('dayPanel').classList.contains('open') && activeDayDate) {
+    updateKPIs(); updateCharts(); renderCalendar(); renderTable();
+    if (document.getElementById('dayPanel').classList.contains('open') && activeDayDate)
         openDayPanel(parseInt(activeDayDate.split('-')[2]));
-    }
 }
 
 // ── ACTIONS ───────────────────────────────────────────
 function markPaid(id) {
-    const bill = bills.find(b => b.id === id);
-    if (bill) { bill.status = 'Paid'; applyFilters(); saveToStorage(); }
+    const b = bills.find(b=>b.id===id);
+    if (b) { b.status='Paid'; applyFilters(); saveToStorage(); }
 }
-
 function deleteBill(id) {
-    if (confirm('Delete this bill?')) {
-        bills = bills.filter(b => b.id !== id);
-        applyFilters();
-        saveToStorage();
-    }
+    if (confirm('Delete this bill?')) { bills=bills.filter(b=>b.id!==id); applyFilters(); saveToStorage(); }
 }
 
 // ── MODAL ─────────────────────────────────────────────
-function openModal(id = null, prefillDate = null) {
+function openModal(id=null, prefillDate=null) {
     editingId = id;
     document.getElementById('modalTitle').textContent = id ? '✏️ Edit Bill' : '➕ Add New Bill';
     if (id) {
-        const b = bills.find(x => x.id === id);
-        document.getElementById('fName').value   = b.name;
-        document.getElementById('fAmount').value = b.amount;
-        document.getElementById('fDue').value    = b.dueDate;
-        document.getElementById('fCat').value    = b.category;
-        document.getElementById('fStatus').value = b.status;
+        const b = bills.find(x=>x.id===id);
+        document.getElementById('fName').value=b.name; document.getElementById('fAmount').value=b.amount;
+        document.getElementById('fDue').value=b.dueDate; document.getElementById('fCat').value=b.category;
+        document.getElementById('fStatus').value=b.status;
     } else {
-        document.getElementById('fName').value   = '';
-        document.getElementById('fAmount').value = '';
-        document.getElementById('fDue').value    = prefillDate || `${currentYear}-${pad(currentMonth)}-01`;
-        document.getElementById('fCat').value    = 'Utilities';
-        document.getElementById('fStatus').value = 'Unpaid';
+        document.getElementById('fName').value=''; document.getElementById('fAmount').value='';
+        document.getElementById('fDue').value=prefillDate||`${currentYear}-${pad(currentMonth)}-01`;
+        document.getElementById('fCat').value='Utilities'; document.getElementById('fStatus').value='Unpaid';
     }
     document.getElementById('modalOverlay').classList.add('open');
 }
-
-function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('open');
-    editingId = null;
-}
-
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); editingId=null; }
 function saveBill() {
-    const name     = document.getElementById('fName').value.trim();
-    const amount   = parseFloat(document.getElementById('fAmount').value);
-    const dueDate  = document.getElementById('fDue').value;
-    const category = document.getElementById('fCat').value;
-    const status   = document.getElementById('fStatus').value;
-    if (!name || isNaN(amount) || !dueDate) { alert('Please fill in all fields.'); return; }
-    if (editingId) {
-        Object.assign(bills.find(b => b.id === editingId), { name, amount, dueDate, category, status });
-    } else {
-        bills.push({ id: nextId++, name, amount, dueDate, category, status });
-    }
-    closeModal();
-    applyFilters();
-    saveToStorage();
+    const name=document.getElementById('fName').value.trim(), amount=parseFloat(document.getElementById('fAmount').value),
+          dueDate=document.getElementById('fDue').value, category=document.getElementById('fCat').value,
+          status=document.getElementById('fStatus').value;
+    if (!name||isNaN(amount)||!dueDate) { alert('Please fill in all fields.'); return; }
+    if (editingId) { Object.assign(bills.find(b=>b.id===editingId),{name,amount,dueDate,category,status}); }
+    else { bills.push({id:nextId++,name,amount,dueDate,category,status}); }
+    closeModal(); applyFilters(); saveToStorage();
 }
-
-document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+document.getElementById('modalOverlay').addEventListener('click', function(e){if(e.target===this)closeModal();});
 
 // ── LOCAL STORAGE (per month) ─────────────────────────
 function saveToStorage() {
     try {
         const p = storagePrefix();
-        localStorage.setItem(p + '_bills',   JSON.stringify(bills));
-        localStorage.setItem(p + '_nextId',  String(nextId));
-        localStorage.setItem(p + '_income1', document.getElementById('kpiIncome1').textContent);
-        localStorage.setItem(p + '_income2', document.getElementById('kpiIncome2').textContent);
-    } catch(e) { console.warn('Storage save failed:', e); }
+        localStorage.setItem(p+'_bills',   JSON.stringify(bills));
+        localStorage.setItem(p+'_nextId',  String(nextId));
+        localStorage.setItem(p+'_income1', document.getElementById('kpiIncome1').textContent);
+        localStorage.setItem(p+'_income2', document.getElementById('kpiIncome2').textContent);
+    } catch(e) { console.warn('Storage save failed:',e); }
 }
-
 function loadFromStorage() {
     try {
-        const p       = storagePrefix();
-        const saved   = localStorage.getItem(p + '_bills');
-        const savedId = localStorage.getItem(p + '_nextId');
-        const inc1    = localStorage.getItem(p + '_income1');
-        const inc2    = localStorage.getItem(p + '_income2');
-        if (saved)   bills  = JSON.parse(saved);
-        if (savedId) nextId = parseInt(savedId);
-        if (inc1)    document.getElementById('kpiIncome1').textContent = inc1;
-        if (inc2)    document.getElementById('kpiIncome2').textContent = inc2;
-    } catch(e) { console.warn('Storage load failed:', e); }
+        const p=storagePrefix(), saved=localStorage.getItem(p+'_bills'),
+              savedId=localStorage.getItem(p+'_nextId'),
+              inc1=localStorage.getItem(p+'_income1'), inc2=localStorage.getItem(p+'_income2');
+        if (saved)   bills=JSON.parse(saved);
+        if (savedId) nextId=parseInt(savedId);
+        if (inc1)    document.getElementById('kpiIncome1').textContent=inc1;
+        if (inc2)    document.getElementById('kpiIncome2').textContent=inc2;
+    } catch(e) { console.warn('Storage load failed:',e); }
 }
-
 document.getElementById('kpiIncome1').addEventListener('blur', saveToStorage);
 document.getElementById('kpiIncome2').addEventListener('blur', saveToStorage);
 
