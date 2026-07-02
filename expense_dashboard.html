@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>July 2026 Bills Tracker</title>
+    <title>Expense Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1" integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ" crossorigin="anonymous"></script>
     <style>
         :root {
@@ -35,6 +35,13 @@
         .filter-group select option { background: #1a1f36; }
         .add-btn { padding: 8px 18px; background: #6366f1; color: #fff; border: none; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
         .add-btn:hover { background: #4f46e5; }
+
+        /* MONTH NAV */
+        .month-nav { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.08); border-radius: 8px; padding: 4px 8px; }
+        .month-nav-btn { background: rgba(255,255,255,0.15); border: none; color: #fff; width: 26px; height: 26px; border-radius: 5px; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+        .month-nav-btn:hover { background: rgba(255,255,255,0.28); }
+        .month-nav select { padding: 4px 8px; border: none; border-radius: 5px; background: rgba(255,255,255,0.12); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; }
+        .month-nav select option { background: #1a1f36; }
 
         /* KPIs */
         .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }
@@ -198,8 +205,28 @@
 
     <!-- HEADER -->
     <header class="header">
-        <h1>📋 July <span>2026</span> Bills Tracker</h1>
+        <h1>📋 <span id="headerTitle">Expense Tracker</span></h1>
         <div class="header-right">
+            <!-- Month / Year navigation -->
+            <div class="month-nav">
+                <button class="month-nav-btn" onclick="changeMonth(-1)">&#8249;</button>
+                <select id="monthSelect" onchange="onMonthChange()">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <select id="yearSelect" onchange="onMonthChange()"></select>
+                <button class="month-nav-btn" onclick="changeMonth(1)">&#8250;</button>
+            </div>
             <div class="filter-group">
                 <label>Category</label>
                 <select id="filterCat" onchange="applyFilters()">
@@ -235,13 +262,13 @@
             <div class="kpi-sub" id="kpiTotalCount">0 bills</div>
         </div>
         <div class="kpi-card green">
-            <div class="kpi-label">Isaiah's Income</div>
-            <div class="kpi-value" id="kpiIsaiah" contenteditable="true" oninput="updateLeftover()" title="Click to edit">$0.00</div>
+            <div class="kpi-label">Income 1</div>
+            <div class="kpi-value" id="kpiIncome1" contenteditable="true" oninput="updateLeftover()" title="Click to edit">$0.00</div>
             <div class="kpi-sub">Click to edit</div>
         </div>
         <div class="kpi-card cyan">
-            <div class="kpi-label">Brianna's Income</div>
-            <div class="kpi-value" id="kpiBrianna" contenteditable="true" oninput="updateLeftover()" title="Click to edit">$0.00</div>
+            <div class="kpi-label">Income 2</div>
+            <div class="kpi-value" id="kpiIncome2" contenteditable="true" oninput="updateLeftover()" title="Click to edit">$0.00</div>
             <div class="kpi-sub">Click to edit</div>
         </div>
         <div class="kpi-card amber">
@@ -253,7 +280,7 @@
 
     <!-- CALENDAR -->
     <div class="cal-card">
-        <div class="cal-title">📅 July 2026 — Bills Calendar <span style="font-size:12px;color:#9ca3af;font-weight:400">(click any day to view & manage bills)</span></div>
+        <div class="cal-title" id="calTitle">📅 Bills Calendar <span style="font-size:12px;color:#9ca3af;font-weight:400">(click any day to view & manage bills)</span></div>
         <div class="cal-grid" id="calGrid"></div>
         <div class="cal-legend">
             <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#d1fae5;border:1px solid #a7f3d0"></div> Paid</div>
@@ -275,12 +302,10 @@
         </div>
     </section>
 
-
-
     <!-- TABLE -->
     <div class="table-card">
         <div class="table-header">
-            <h3>📄 All Bills — July 2026</h3>
+            <h3 id="tableTitle">📄 All Bills</h3>
             <input class="search-box" type="text" placeholder="🔍 Search bills..." oninput="applyFilters()" id="searchInput">
         </div>
         <div class="table-wrap">
@@ -300,14 +325,14 @@
         </div>
     </div>
 
-    <div class="footer">July 2026 · Click a calendar day to manage bills for that date · + Add Bill anytime</div>
+    <div class="footer" id="footer">Expense Tracker · Click a calendar day to manage bills for that date · + Add Bill anytime</div>
 </div>
 
 <!-- DAY SIDE PANEL -->
 <div class="day-panel-overlay" id="dayPanelOverlay" onclick="closeDayPanel()"></div>
 <div class="day-panel" id="dayPanel">
     <div class="day-panel-header">
-        <div class="day-panel-title" id="dayPanelTitle">July 1</div>
+        <div class="day-panel-title" id="dayPanelTitle"></div>
         <button class="day-panel-close" onclick="closeDayPanel()">✕</button>
     </div>
     <div class="day-panel-total" id="dayPanelTotal"></div>
@@ -362,6 +387,11 @@
 </div>
 
 <script>
+// ── CURRENT MONTH / YEAR ──────────────────────────────
+const _now = new Date();
+let currentYear  = _now.getFullYear();
+let currentMonth = _now.getMonth() + 1; // 1-based
+
 // ── DATA ──────────────────────────────────────────────
 let bills = [];
 let nextId = 1;
@@ -369,7 +399,7 @@ let sortKey = 'dueDate';
 let sortDir = 1;
 let editingId = null;
 let filteredBills = [];
-let activeDayDate = null; // "2026-07-XX"
+let activeDayDate = null;
 
 // ── CATEGORY CONFIG ───────────────────────────────────
 const catColors = {
@@ -380,7 +410,7 @@ const catEmoji = {
     Housing: '🏠', Utilities: '💡', Insurance: '🛡️',
     Subscriptions: '📱', Transportation: '🚗', Health: '❤️', Other: '📦'
 };
-const chipClass = { Paid: 'chip-paid', Unpaid: 'chip-unpaid', Upcoming: 'chip-upcoming', AutoPay: 'chip-autopay' };
+const chipClass  = { Paid: 'chip-paid', Unpaid: 'chip-unpaid', Upcoming: 'chip-upcoming', AutoPay: 'chip-autopay' };
 const statusIcon = { Paid: '✅', Unpaid: '❌', Upcoming: '⏰', AutoPay: '🔄' };
 
 // ── HELPERS ───────────────────────────────────────────
@@ -388,7 +418,63 @@ function fmt(n) {
     return '$' + (n||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 function pad(n) { return String(n).padStart(2, '0'); }
-function dateKey(day) { return `2026-07-${pad(day)}`; }
+function dateKey(day) { return `${currentYear}-${pad(currentMonth)}-${pad(day)}`; }
+function monthLabel() {
+    return new Date(currentYear, currentMonth - 1, 1).toLocaleString('en-US', { month: 'long' });
+}
+function storagePrefix() { return `expenses_${currentYear}_${pad(currentMonth)}`; }
+
+// ── MONTH NAV ─────────────────────────────────────────
+function populateYearSelect() {
+    const sel = document.getElementById('yearSelect');
+    sel.innerHTML = '';
+    for (let y = _now.getFullYear() - 3; y <= _now.getFullYear() + 5; y++) {
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        sel.appendChild(opt);
+    }
+}
+
+function syncSelectors() {
+    document.getElementById('monthSelect').value = currentMonth;
+    document.getElementById('yearSelect').value  = currentYear;
+}
+
+function updatePageLabels() {
+    const label = `${monthLabel()} ${currentYear}`;
+    document.getElementById('headerTitle').textContent = label;
+    document.getElementById('calTitle').innerHTML =
+        `📅 ${label} — Bills Calendar <span style="font-size:12px;color:#9ca3af;font-weight:400">(click any day to view & manage bills)</span>`;
+    document.getElementById('tableTitle').textContent  = `📄 All Bills — ${label}`;
+    document.getElementById('footer').textContent = `${label} · Click a calendar day to manage bills for that date · + Add Bill anytime`;
+    document.title = `Expense Tracker — ${label}`;
+}
+
+function changeMonth(delta) {
+    saveToStorage();
+    currentMonth += delta;
+    if (currentMonth > 12) { currentMonth = 1; currentYear++; }
+    if (currentMonth < 1)  { currentMonth = 12; currentYear--; }
+    syncSelectors();
+    loadMonth();
+}
+
+function onMonthChange() {
+    saveToStorage();
+    currentMonth = parseInt(document.getElementById('monthSelect').value);
+    currentYear  = parseInt(document.getElementById('yearSelect').value);
+    loadMonth();
+}
+
+function loadMonth() {
+    bills = []; nextId = 1;
+    document.getElementById('kpiIncome1').textContent = '$0.00';
+    document.getElementById('kpiIncome2').textContent = '$0.00';
+    loadFromStorage();
+    closeDayPanel();
+    updatePageLabels();
+    applyFilters();
+}
 
 // ── CHARTS ────────────────────────────────────────────
 let barChart, donutChart;
@@ -438,10 +524,10 @@ function parseIncome(id) {
 }
 
 function updateLeftover() {
-    const isaiah  = parseIncome('kpiIsaiah');
-    const brianna = parseIncome('kpiBrianna');
-    const combined = isaiah + brianna;
-    const total = bills.reduce((s, b) => s + b.amount, 0);
+    const income1  = parseIncome('kpiIncome1');
+    const income2  = parseIncome('kpiIncome2');
+    const combined = income1 + income2;
+    const total    = bills.reduce((s, b) => s + b.amount, 0);
     document.getElementById('kpiCombined').textContent = fmt(combined);
     const leftover = combined - total;
     const el = document.getElementById('kpiLeftover');
@@ -456,44 +542,21 @@ function updateLeftover() {
 
 function updateKPIs() {
     const total = filteredBills.reduce((s, b) => s + b.amount, 0);
-    document.getElementById('kpiTotal').textContent = fmt(total);
+    document.getElementById('kpiTotal').textContent     = fmt(total);
     document.getElementById('kpiTotalCount').textContent = filteredBills.length + ' bill' + (filteredBills.length !== 1 ? 's' : '');
     updateLeftover();
-}
-
-// ── PROGRESS BARS ─────────────────────────────────────
-function updateProgress() {
-    const list = document.getElementById('progressList');
-    const rows = Object.keys(catColors).map(cat => {
-        const cb = filteredBills.filter(b => b.category === cat);
-        if (!cb.length) return null;
-        const total = cb.reduce((s,b)=>s+b.amount,0);
-        const paid = cb.filter(b=>b.status==='Paid'||b.status==='AutoPay').reduce((s,b)=>s+b.amount,0);
-        return { cat, total, paid, pct: total > 0 ? (paid/total)*100 : 0 };
-    }).filter(Boolean);
-    if (!rows.length) { list.innerHTML = '<p style="color:#9ca3af;font-size:13px;padding:10px 0">No bills yet.</p>'; return; }
-    list.innerHTML = rows.map(r => `
-        <div>
-            <div class="progress-header">
-                <span class="progress-name">${catEmoji[r.cat]} ${r.cat}</span>
-                <span class="progress-amount">${fmt(r.paid)} / ${fmt(r.total)}</span>
-            </div>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" style="width:${r.pct.toFixed(1)}%;background:${catColors[r.cat]}"></div>
-            </div>
-        </div>`).join('');
 }
 
 // ── CALENDAR ──────────────────────────────────────────
 function renderCalendar() {
     const grid = document.getElementById('calGrid');
     const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    // July 2026 starts on Wednesday (day index 3)
-    const startDow = 3;
-    const daysInMonth = 31;
-    const today = 22; // treat July 22 as "today" for highlight
+    const startDow   = new Date(currentYear, currentMonth - 1, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+    const realToday  = new Date();
+    const isThisMonth = realToday.getFullYear() === currentYear && realToday.getMonth() + 1 === currentMonth;
+    const todayDay   = isThisMonth ? realToday.getDate() : -1;
 
-    // Build day → bills map from ALL bills (calendar shows everything)
     const dayMap = {};
     bills.forEach(b => {
         const d = parseInt(b.dueDate.split('-')[2]);
@@ -502,20 +565,18 @@ function renderCalendar() {
     });
 
     let html = dows.map(d => `<div class="cal-dow">${d}</div>`).join('');
-
-    // Empty cells before the 1st
     for (let i = 0; i < startDow; i++) html += `<div class="cal-day empty"></div>`;
 
     for (let day = 1; day <= daysInMonth; day++) {
         const dayBills = dayMap[day] || [];
-        const hasB = dayBills.length > 0;
-        const isToday = day === today;
+        const hasB    = dayBills.length > 0;
+        const isToday = day === todayDay;
         const classes = ['cal-day', hasB ? 'has-bills' : '', isToday ? 'today' : ''].filter(Boolean).join(' ');
         const maxShow = 2;
         const chips = dayBills.slice(0, maxShow).map(b =>
             `<span class="cal-bill-chip ${chipClass[b.status]||'chip-upcoming'}" title="${b.name} — ${fmt(b.amount)}" onclick="event.stopPropagation();openDayPanel(${day})">${b.name}</span>`
         ).join('');
-        const more = dayBills.length > maxShow ? `<div class="cal-more" onclick="event.stopPropagation();openDayPanel(${day})">+${dayBills.length - maxShow} more</div>` : '';
+        const more     = dayBills.length > maxShow ? `<div class="cal-more" onclick="event.stopPropagation();openDayPanel(${day})">+${dayBills.length - maxShow} more</div>` : '';
         const dayTotal = dayBills.length > 0 ? `<div class="cal-day-total">${fmt(dayBills.reduce((s,b)=>s+b.amount,0))}</div>` : '';
         html += `<div class="${classes}" onclick="openDayPanel(${day})">
             <div class="cal-day-num">${day}</div>
@@ -530,10 +591,10 @@ function renderCalendar() {
 function openDayPanel(day) {
     activeDayDate = dateKey(day);
     const dayBills = bills.filter(b => b.dueDate === activeDayDate);
-    const total = dayBills.reduce((s,b)=>s+b.amount,0);
+    const total    = dayBills.reduce((s,b)=>s+b.amount,0);
 
-    const d = new Date(activeDayDate + 'T00:00:00');
-    const label = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const d     = new Date(activeDayDate + 'T00:00:00');
+    const label = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
     document.getElementById('dayPanelTitle').textContent = label;
     document.getElementById('dayPanelTotal').textContent = dayBills.length
         ? `${dayBills.length} bill${dayBills.length>1?'s':''} · Total due: ${fmt(total)}`
@@ -565,11 +626,10 @@ function openDayPanel(day) {
 function closeDayPanel() {
     document.getElementById('dayPanelOverlay').classList.remove('open');
     document.getElementById('dayPanel').classList.remove('open');
+    activeDayDate = null;
 }
 
-function addBillForDay() {
-    openModal(null, activeDayDate);
-}
+function addBillForDay() { openModal(null, activeDayDate); }
 
 // ── TABLE ─────────────────────────────────────────────
 function badgeHtml(status) {
@@ -583,10 +643,10 @@ function renderTable() {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:40px 30px;font-size:15px">📋 No bills yet — click <strong>+ Add Bill</strong> to get started!</td></tr>`;
         return;
     }
+    const today = new Date(); today.setHours(0,0,0,0);
     tbody.innerHTML = filteredBills.map(b => {
-        const due = new Date(b.dueDate + 'T00:00:00');
+        const due  = new Date(b.dueDate + 'T00:00:00');
         const dStr = due.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-        const today = new Date(2026, 6, 22); today.setHours(0,0,0,0);
         const overdue = due < today && b.status === 'Unpaid';
         return `<tr>
             <td><strong>${b.name}</strong></td>
@@ -608,11 +668,11 @@ function applyFilters() {
     const cat    = document.getElementById('filterCat').value;
     const status = document.getElementById('filterStatus').value;
     const search = document.getElementById('searchInput').value.toLowerCase();
-    filteredBills = bills.filter(b => {
-        return (cat === 'all' || b.category === cat)
-            && (status === 'all' || b.status === status)
-            && (!search || b.name.toLowerCase().includes(search) || b.category.toLowerCase().includes(search));
-    });
+    filteredBills = bills.filter(b =>
+        (cat    === 'all' || b.category === cat) &&
+        (status === 'all' || b.status   === status) &&
+        (!search || b.name.toLowerCase().includes(search) || b.category.toLowerCase().includes(search))
+    );
     sortBills();
     refresh();
 }
@@ -627,7 +687,7 @@ function sortTable(key) {
 function sortBills() {
     filteredBills.sort((a, b) => {
         let va = a[sortKey], vb = b[sortKey];
-        if (sortKey === 'amount') return (va - vb) * sortDir;
+        if (sortKey === 'amount')  return (va - vb) * sortDir;
         if (sortKey === 'dueDate') return (new Date(va) - new Date(vb)) * sortDir;
         return va.localeCompare(vb) * sortDir;
     });
@@ -638,10 +698,8 @@ function refresh() {
     updateCharts();
     renderCalendar();
     renderTable();
-    // Refresh day panel if open
     if (document.getElementById('dayPanel').classList.contains('open') && activeDayDate) {
-        const day = parseInt(activeDayDate.split('-')[2]);
-        openDayPanel(day);
+        openDayPanel(parseInt(activeDayDate.split('-')[2]));
     }
 }
 
@@ -665,16 +723,16 @@ function openModal(id = null, prefillDate = null) {
     document.getElementById('modalTitle').textContent = id ? '✏️ Edit Bill' : '➕ Add New Bill';
     if (id) {
         const b = bills.find(x => x.id === id);
-        document.getElementById('fName').value = b.name;
+        document.getElementById('fName').value   = b.name;
         document.getElementById('fAmount').value = b.amount;
-        document.getElementById('fDue').value = b.dueDate;
-        document.getElementById('fCat').value = b.category;
+        document.getElementById('fDue').value    = b.dueDate;
+        document.getElementById('fCat').value    = b.category;
         document.getElementById('fStatus').value = b.status;
     } else {
-        document.getElementById('fName').value = '';
+        document.getElementById('fName').value   = '';
         document.getElementById('fAmount').value = '';
-        document.getElementById('fDue').value = prefillDate || '2026-07-01';
-        document.getElementById('fCat').value = 'Utilities';
+        document.getElementById('fDue').value    = prefillDate || `${currentYear}-${pad(currentMonth)}-01`;
+        document.getElementById('fCat').value    = 'Utilities';
         document.getElementById('fStatus').value = 'Unpaid';
     }
     document.getElementById('modalOverlay').classList.add('open');
@@ -704,37 +762,41 @@ function saveBill() {
 
 document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
-// ── LOCAL STORAGE ─────────────────────────────────────
+// ── LOCAL STORAGE (per month) ─────────────────────────
 function saveToStorage() {
     try {
-        localStorage.setItem('july2026_bills', JSON.stringify(bills));
-        localStorage.setItem('july2026_nextId', String(nextId));
-        localStorage.setItem('july2026_isaiah', document.getElementById('kpiIsaiah').textContent);
-        localStorage.setItem('july2026_brianna', document.getElementById('kpiBrianna').textContent);
+        const p = storagePrefix();
+        localStorage.setItem(p + '_bills',   JSON.stringify(bills));
+        localStorage.setItem(p + '_nextId',  String(nextId));
+        localStorage.setItem(p + '_income1', document.getElementById('kpiIncome1').textContent);
+        localStorage.setItem(p + '_income2', document.getElementById('kpiIncome2').textContent);
     } catch(e) { console.warn('Storage save failed:', e); }
 }
 
 function loadFromStorage() {
     try {
-        const savedBills = localStorage.getItem('july2026_bills');
-        const savedId    = localStorage.getItem('july2026_nextId');
-        const isaiah     = localStorage.getItem('july2026_isaiah');
-        const brianna    = localStorage.getItem('july2026_brianna');
-        if (savedBills) bills = JSON.parse(savedBills);
-        if (savedId)    nextId = parseInt(savedId);
-        if (isaiah)     document.getElementById('kpiIsaiah').textContent = isaiah;
-        if (brianna)    document.getElementById('kpiBrianna').textContent = brianna;
+        const p       = storagePrefix();
+        const saved   = localStorage.getItem(p + '_bills');
+        const savedId = localStorage.getItem(p + '_nextId');
+        const inc1    = localStorage.getItem(p + '_income1');
+        const inc2    = localStorage.getItem(p + '_income2');
+        if (saved)   bills  = JSON.parse(saved);
+        if (savedId) nextId = parseInt(savedId);
+        if (inc1)    document.getElementById('kpiIncome1').textContent = inc1;
+        if (inc2)    document.getElementById('kpiIncome2').textContent = inc2;
     } catch(e) { console.warn('Storage load failed:', e); }
 }
 
-document.getElementById('kpiIsaiah').addEventListener('blur', saveToStorage);
-document.getElementById('kpiBrianna').addEventListener('blur', saveToStorage);
+document.getElementById('kpiIncome1').addEventListener('blur', saveToStorage);
+document.getElementById('kpiIncome2').addEventListener('blur', saveToStorage);
 
 // ── INIT ──────────────────────────────────────────────
+populateYearSelect();
+syncSelectors();
+updatePageLabels();
 initCharts();
 loadFromStorage();
 applyFilters();
-
 </script>
 </body>
 </html>
